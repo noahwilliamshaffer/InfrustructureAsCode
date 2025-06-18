@@ -1,0 +1,123 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudops-frontend
+  namespace: ${ENVIRONMENT:-cloudops}
+  labels:
+    app: cloudops-frontend
+    tier: frontend
+    app.kubernetes.io/name: cloudops-frontend
+    app.kubernetes.io/instance: ${ENVIRONMENT:-production}
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: cloudops-platform
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: cloudops-frontend
+    tier: frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudops-backend
+  namespace: ${ENVIRONMENT:-cloudops}
+  labels:
+    app: cloudops-backend
+    tier: backend
+    app.kubernetes.io/name: cloudops-backend
+    app.kubernetes.io/instance: ${ENVIRONMENT:-production}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: cloudops-platform
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: cloudops-backend
+    tier: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudops-postgres
+  namespace: ${ENVIRONMENT:-cloudops}
+  labels:
+    app: cloudops-postgres
+    tier: database
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: ${ENVIRONMENT:-production}
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: cloudops-platform
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgresql
+  selector:
+    app: cloudops-postgres
+    tier: database
+---
+# LoadBalancer service for external access (for local development)
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudops-frontend-lb
+  namespace: ${ENVIRONMENT:-cloudops}
+  labels:
+    app: cloudops-frontend
+    tier: frontend
+    service-type: loadbalancer
+    app.kubernetes.io/name: cloudops-frontend
+    app.kubernetes.io/instance: ${ENVIRONMENT:-production}
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: cloudops-platform
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 3000
+    protocol: TCP
+    name: https
+  selector:
+    app: cloudops-frontend
+    tier: frontend
+---
+# NodePort service for backend API external access
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudops-backend-nodeport
+  namespace: ${ENVIRONMENT:-cloudops}
+  labels:
+    app: cloudops-backend
+    tier: backend
+    service-type: nodeport
+    app.kubernetes.io/name: cloudops-backend
+    app.kubernetes.io/instance: ${ENVIRONMENT:-production}
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: cloudops-platform
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080
+    protocol: TCP
+    name: http
+  selector:
+    app: cloudops-backend
+    tier: backend 
