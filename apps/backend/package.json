@@ -1,0 +1,44 @@
+{
+  "name": "cloudops-dashboard-backend",
+  "version": "1.0.0",
+  "description": "Express.js API backend for CloudOps Dashboard",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.1",
+    "prisma": "^5.22.0",
+    "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/morgan": "^1.9.9",
+    "@types/compression": "^1.7.5",
+    "@types/pg": "^8.11.10",
+    "@types/node": "^22.9.1",
+    "typescript": "^5.6.3",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.14",
+    "eslint": "^8.57.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
