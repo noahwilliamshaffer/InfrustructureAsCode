@@ -1,0 +1,51 @@
+{
+  "name": "cloudops-dashboard",
+  "version": "1.0.0",
+  "description": "Enterprise-Grade DevOps Platform with Next.js and Kubernetes",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "npm run dev --workspace=apps/frontend",
+    "dev:backend": "npm run dev --workspace=apps/backend",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "npm run build --workspace=apps/frontend",
+    "build:backend": "npm run build --workspace=apps/backend",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "docker:build": "./scripts/docker-build.sh",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "k8s:deploy": "./scripts/k8s-deploy.sh",
+    "terraform:init": "cd infrastructure/terraform && terraform init",
+    "terraform:plan": "cd infrastructure/terraform && terraform plan",
+    "terraform:apply": "cd infrastructure/terraform && terraform apply",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noahwilliamshaffer/InfrustructureAsCode.git"
+  },
+  "author": "Noah Williams Shaffer",
+  "license": "MIT"
+} 
